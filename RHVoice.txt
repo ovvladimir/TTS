@@ -1,0 +1,51 @@
+Для компиляции RHVoice в вашей системе должны быть установлены следующие пакеты (на выходе RHVoice-test):
+sudo apt-get -q install scons g++ pkg-config git sox libglibmm-2.4-dev libpulse-dev libspeechd-dev
+
+git clone https://github.com/RHVoice/RHVoice.git
+cd RHVoice
+
+Компиляция
+Для запуска компиляции выполните команду:
+scons
+
+Для установки RHVoice выполните следующие команды:
+sudo scons install
+sudo ldconfig
+
+Проверка работы синтезатора:
+echo "Привет я синтезатор речи" | RHVoice-test -p anna
+
+RHVoice-test --help
+RHVoice-test  [-v <percent>] [-t <percent>] [-R <Hz>] [-r <percent>]
+              [-p <spec>] [-s] [-o <path>] [-i <path>] [--] [--version] [-h]
+/etc/RHVoice/RHVoice.conf
+/usr/local/etc/RHVoice/RHVoice.conf
+
+Дополнительно:
+sudo cp -a /usr/local/bin/sd_rhvoice /usr/lib/speech-dispatcher-modules
+sudo gedit /etc/speech-dispatcher/modules/rhvoice.conf
+добавляем:
+RHVoiceDataPath "/usr/local/share/RHVoice"
+RHVoiceConfigPath "/usr/local/etc/RHVoice/"
+RHVoicePunctuationMode 0
+#RHVoicePunctuationList "@+_"
+RHVoiceDefaultVoice "Aleksandr-hq"
+RHVoiceDefaultVariant "Pseudo-English"
+Debug 0
+sudo gedit /etc/speech-dispatcher/speechd.conf
+добавляем (там где #AddModule):
+#AddModule "rhvoice" "sd_rhvoice" "rhvoice.conf"
+Проверка:
+echo "Проверка" | spd-say -o rhvoice -l ru -e -w
+
+Удаление:
+sudo scons --clean install RHVoice
+
+
+Простой способ установки (на выходе RHVoice-client):
+sudo add-apt-repository ppa:linvinus/rhvoice
+sudo apt update
+sudo apt install rhvoice
+
+echo "Привет я синтезатор речи" | RHVoice-client -s anna
+
