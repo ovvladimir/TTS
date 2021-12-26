@@ -35,12 +35,6 @@ def save_wav():
         # tts.save('speech.wav')
 
 
-# ударение в слове с помощью +, например, к+рая
-# для RHVoice-client:
-# conf = ' -v -1 -r 0.3 -p -0.5 '
-# для RHVoice-test:
-conf = ' --volume 30 --pitch 75 --rate 100 '
-
 os_name = os.name
 if os_name == 'nt':
     # https://docs.microsoft.com/ru-ru/dotnet/api/system.speech.synthesis.speechsynthesizer.volume?view=netframework-4.8
@@ -48,6 +42,12 @@ if os_name == 'nt':
         "$speech = New-Object System.Speech.Synthesis.SpeechSynthesizer; " \
         "$speech.SelectVoice('Microsoft Irina Desktop'); " \
         "$speech.Volume=100; $speech.Rate=0"  # от 0 до 100 и от -10 до 10
+else:
+    # ударение в слове с помощью +, например, к+рая
+    # для RHVoice-client:
+    # conf = ' -v -1 -r 0.3 -p -0.5 '
+    # для RHVoice-test:
+    conf = ' --volume 30 --pitch 75 --rate 100 '
 
 root = Tk()
 root.title('Text-to-Speech')
