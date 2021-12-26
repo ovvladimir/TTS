@@ -41,13 +41,13 @@ def save_wav():
 # для RHVoice-test:
 conf = ' --volume 30 --pitch 75 --rate 100 '
 
-if os.name == 'nt':
+os_name = os.name
+if os_name == 'nt':
     # https://docs.microsoft.com/ru-ru/dotnet/api/system.speech.synthesis.speechsynthesizer.volume?view=netframework-4.8
     command = "PowerShell -Command Add-Type -AssemblyName System.Speech; " \
         "$speech = New-Object System.Speech.Synthesis.SpeechSynthesizer; " \
         "$speech.SelectVoice('Microsoft Irina Desktop'); " \
         "$speech.Volume=100; $speech.Rate=0"  # от 0 до 100 и от -10 до 10
-os_name = os.name
 
 root = Tk()
 root.title('Text-to-Speech')
